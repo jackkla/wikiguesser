@@ -9,7 +9,7 @@ def split_and_filter_text(text, article_name):
   Returns:
     A list of sentences that meet the criteria.
   """
-
+  article_name = article_name.replace("_"," ")
   # Split text into sentences using regex
   re_query = r"\n|\.\s+"
   sentences = re.split(re_query, text, flags=re.IGNORECASE)
