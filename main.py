@@ -23,7 +23,7 @@ def article_guessing_game(article_list):
         guess = input("Which article is this sentence from? (You have {} guesses left): ".format(guesses_left))
         guesses_left -= 1
 
-        if guess.lower() == correct_article.lower().replace("_", " "):
+        if guess.lower() in parser.get_redirects(correct_article):
             print("Correct!")
             return
         elif guesses_left >= 1:
@@ -37,8 +37,9 @@ def article_guessing_game(article_list):
             print("Incorrect. Here's another sentence from the same article:", additional_sentence)
 
     print("Out of guesses. The correct answer was:", correct_article)
+    print(sentences)
 
 # Example usage:
-with open("articles.txt", "r") as f:
+with open("articles2.txt", "r") as f:
     article_names = [line.strip() for line in f]
 article_guessing_game(article_names)
