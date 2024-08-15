@@ -1,6 +1,7 @@
 import wikipediaapi
 import parser
 import csv
+import re
 
 def get_wikipedia_full_text(article_title):
     """
@@ -21,10 +22,14 @@ def get_wikipedia_full_text(article_title):
 
     # Get the page object for the specified article
     page = wiki.page(article_title)
+    article_title = article_title.replace("_"," ")
 
     # Retrieve the full text of the article
-    full_text = page.text
-
+    article_title = re.sub(" [\(\[].*?[\)\]]", "", article_title)
+    print(f"subbed title: {article_title}")
+    full_text = page.text.replace(article_title, '[REDACTED]')
+    full_text = full_text.replace(article_title.lower(), '[REDACTED]')
+    print(article_title in full_text)
     return full_text
 #
 # # Read article names from file
