@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipedia Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #007acc;
+        }
+        blockquote {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007acc;
+            margin: 20px 0;
+            padding: 10px;
+            font-style: italic;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005f99;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wikipedia Guessing Game</h1>
+    {% if result %}
+        <p><strong>{{ result }}</strong></p>
+    {% endif %}
+    <p>Guess the Wikipedia article based on these sentences:</p>
+    {% for sentence in sentences %}
+        <blockquote>{{ sentence }}</blockquote>
+    {% endfor %}
+    <form method="POST">
+        <input type="text" name="guess" required>
+        <input type="submit" value="Submit Guess">
+    </form>
+    <p>Guesses left: {{ guesses_left }}</p>
+</body>
+</html>
