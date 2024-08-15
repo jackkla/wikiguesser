@@ -3,67 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wikipedia Guessing Game</title>
+    <title>Wikiguesser - Wikipedia Game</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Lato', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
             margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #202122;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-        h1 {
-            color: #007acc;
-        }
-        blockquote {
-            background-color: #e7f3ff;
-            border-left: 5px solid #007acc;
-            margin: 20px 0;
-            padding: 10px;
-            font-style: italic;
-        }
-        form {
+        .content {
+            background-color: #ffffff;
+            border: 1px solid #a2a9b1;
+            padding: 20px;
             margin-top: 20px;
         }
-        input[type="text"] {
+        h1, h2 {
+            font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+            border-bottom: 1px solid #a2a9b1;
+            font-weight: normal;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        h1 { font-size: 28px; }
+        h2 { font-size: 22px; margin-top: 30px; }
+        .result, .incorrect-guesses {
+            background-color: #eaecf0;
+            border: 1px solid #a2a9b1;
+            border-left: 3px solid #36c;
+            margin-bottom: 20px;
             padding: 10px;
-            width: 300px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #007acc;
-            color: #fff;
+        .sentences { margin-bottom: 20px; }
+        .sentence { margin-bottom: 10px; }
+        .guesses-left {
+            font-style: italic;
+            color: #54595d;
+            margin-bottom: 15px;
+        }
+        .guess-form { margin-top: 20px; }
+        .guess-input {
+            width: calc(100% - 22px);
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #a2a9b1;
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+        .guess-submit, .wiki-link {
+            color: #0645ad;
+            background: none;
             border: none;
-            border-radius: 5px;
+            padding: 0;
+            font: inherit;
             cursor: pointer;
+            text-decoration: none;
         }
-        input[type="submit"]:hover {
-            background-color: #005f99;
-        }
-        p {
-            margin: 10px 0;
-        }
+        .guess-submit:hover, .wiki-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h1>Wikipedia Guessing Game</h1>
-    {% if result %}
-        <p><strong>{{ result }}</strong></p>
-    {% endif %}
-    <p>Guess the Wikipedia article based on these sentences:</p>
-    {% for sentence in sentences %}
-        <blockquote>{{ sentence }}</blockquote>
-    {% endfor %}
-    <form method="POST">
-        <input type="text" name="guess" required>
-        <input type="submit" value="Submit Guess">
-    </form>
-    <p>Guesses left: {{ guesses_left }}</p>
+    <div class="container">
+        <div class="content">
+            <h1>Wikiguesser</h1>
+
+            {% if result %}
+            <div class="result">
+                <strong>{{ result }}</strong>
+            </div>
+            {% endif %}
+
+            <h2>Article Clues</h2>
+
+            <div class="sentences">
+                {% for sentence in sentences %}
+                <p class="sentence">{{ sentence }}</p>
+                {% endfor %}
+            </div>
+
+            <p class="guesses-left">Guesses remaining: {{ guesses_left }}</p>
+
+            {% if incorrect_guesses %}
+            <div class="incorrect-guesses">
+                <h3>Incorrect guesses:</h3>
+                <ul>
+                    {% for guess in incorrect_guesses %}
+                    <li><a href="https://en.wikipedia.org/wiki/{{ guess|replace(' ', '_') }}" class="wiki-link" target="_blank">{{ guess }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <h2>Make a Guess</h2>
+
+            <form class="guess-form" method="post" action="/">
+                <input type="text" name="guess" placeholder="Enter the name of the Wikipedia article" class="guess-input" required>
+                <button type="submit" class="guess-submit">Submit guess</button>
+            </form>
+
+            <h2>How to Play</h2>
+            <p>Guess the Wikipedia article based on the provided sentences. You have a limited number of guesses. Each incorrect guess will reveal an additional sentence from the article.</p>
+
+            <h2>See also</h2>
+            <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_games" class="wiki-link" target="_blank">Wikipedia games</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Quiz" class="wiki-link" target="_blank">Online quizzes</a></li>
+                <li><a href="https://github.com/jackkla/" class="wiki-link" target="_blank">Developer's GitHub</a></li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
